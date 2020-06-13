@@ -51,6 +51,7 @@ const StartGameScreen = (props) => {
         <Button
           title="START GAME"
           onPress={() => props.onStartGame(selectNumber)}
+          color={Colors.secondary}
         />
       </Card>
     );
@@ -65,9 +66,9 @@ const StartGameScreen = (props) => {
       <View style={styles.screen}>
         <Text style={styles.title}>Start a New Game!</Text>
         <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
           <Input
             style={styles.input}
+            placeholder="Select a Number"
             blurOnSubmit
             autoCapitalize="none"
             autoCorrect={false}
@@ -81,14 +82,14 @@ const StartGameScreen = (props) => {
               <Button
                 title="Reset"
                 onPress={resetInputHandler}
-                color={Colors.secondary}
+                color={Colors.button1}
               />
             </View>
             <View style={styles.button}>
               <Button
                 title="Confirm"
                 onPress={confirmInputHandler}
-                color={Colors.primary}
+                color={Colors.button2}
               />
             </View>
           </View>
@@ -107,7 +108,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginVertical: 10,
+    marginVertical: 30,
+    color: Colors.primary,
+    fontSize: 18,
   },
   inputContainer: {
     width: 300,
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     paddingHorizontal: 15,
+    marginTop: 20,
   },
   button: {
     width: 100,
@@ -126,11 +130,18 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: "center",
+    marginVertical: 20,
+    borderColor: Colors.secondary,
+    borderRadius: 10,
   },
   summaryContainer: {
     padding: 20,
-    marginTop: 20,
+    marginTop: 100,
     alignItems: "center",
+    minHeight: 150,
+    width: 300,
+    maxWidth: "80%",
+    padding: 20,
   },
 });
 

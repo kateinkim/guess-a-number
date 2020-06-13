@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
+import Colors from "../constants/colors";
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -14,16 +15,14 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-const GameScreen = (props) => {
+const GameScreen = ({ userChoice, onGameOver }) => {
   const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, props.userChoice)
+    generateRandomBetween(1, 100, userChoice)
   );
   const [rounds, setRounds] = useState(0);
 
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
-
-  const { userChoice, onGameOver } = props;
 
   useEffect(() => {
     if (currentGuess === userChoice) {
@@ -33,8 +32,8 @@ const GameScreen = (props) => {
 
   const nextGuessHandler = (direction) => {
     if (
-      (direction === "lower" && currentGuess < props.userChoice) ||
-      (direction === "greater" && currentGuess > props.userChoice)
+      (direction === "lower" && currentGuess < userChoice) ||
+      (direction === "greater" && currentGuess > userChoice)
     ) {
       Alert.alert("Don't lie!", "You know that this is wrong..", [
         { text: "Sorry", style: "cancel" },
@@ -42,9 +41,9 @@ const GameScreen = (props) => {
       return;
     }
     if (direction === "lower") {
-      currentHigh.current === currentGuess;
+      currentHigh.current = currentGuess;
     } else {
-      currentLow.current === currentGuess;
+      currentLow.current = currentGuess;
     }
     const nextNumber = generateRandomBetween(
       currentLow.current,
@@ -57,13 +56,18 @@ const GameScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      <Text>Opponent's Guess</Text>
+      <Text style={styles.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button title="LOWER" onPress={nextGuessHandler.bind(this, "lower")} />
+        <Button
+          title="LOWER"
+          onPress={nextGuessHandler.bind(this, "lower")}
+          color={Colors.button1}
+        />
         <Button
           title="GREATER"
           onPress={nextGuessHandler.bind(this, "greater")}
+          color={Colors.button2}
         />
       </Card>
     </View>
@@ -76,10 +80,15 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
+  title: {
+    fontSize: 18,
+    marginVertical: 30,
+  },
   buttonContainer: {
     flexDirection: "row",
+    padding: 10,
     justifyContent: "space-around",
-    marginTop: 20,
+    marginTop: 30,
     width: 300,
     maxWidth: "80%",
   },
